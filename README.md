@@ -39,7 +39,7 @@ By reducing the reliance on **email-based queries** and providing students with 
 
 ## 🎥 Demo
 
-[![Watch the demo](https://img.youtube.com/vi/YOUR_VIDEO_ID/maxresdefault.jpg)]([https://www.youtube.com/watch?v=YOUR_VIDEO_ID](https://youtube.com/shorts/BKOmhhEU_5k?feature=share))
+[![Watch the demo](Demo-Video.mp4)
 
 Click the image above to watch a 30-second demo of the chatbot in action.
 

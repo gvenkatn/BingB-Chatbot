@@ -1,0 +1,70 @@
+/* General container styles */
+.chat-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 1rem;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    height: 400px; /* or adjust as needed */
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  /* Chat bubbles */
+  .chat-bubble {
+    padding: 12px 16px;
+    border-radius: 16px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.4;
+    max-width: 80%;
+    word-wrap: break-word;
+    
+  }
+  
+  /* User messages (align right, green background) */
+  .user-bubble {
+    background-color: #dcf8c6;
+    align-self: flex-end;
+    color: #000;
+    margin: 5px 0;
+  }
+  
+  /* Bot messages (align left, neutral background) */
+  .bot-bubble {
+    background-color: #ffffff;
+    border: 1px solid #dcdcdc;
+    align-self: flex-start;
+    color: #000;
+    margin: 5px 0;
+  }
+  
+  /* Animations for messages */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  .user-bubble,
+  .bot-bubble {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  /* Responsive adjustments */
+  @media screen and (max-width: 768px) {
+    .chat-container {
+      max-width: 90%;
+      height: auto;
+    }
+  
+    .chat-bubble {
+      max-width: 100%;
+    }
+  }
+  

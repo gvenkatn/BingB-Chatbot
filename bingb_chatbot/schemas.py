@@ -9,19 +9,19 @@ class FAQBase(BaseModel):
     tags: Optional[str] = None
     priority_level: Optional[str] = "Medium"
 
+class FAQResponse(BaseModel):
+    id: int
+    question: str
+    answer: str
+    last_updated: datetime  # ✅ Ensure this field exists and matches the model
+
+    class Config:
+        from_attributes = True  # ✅ Fix for Pydantic v2
+
+
 class FAQCreate(FAQBase):
     pass
 
-class FAQResponse(FAQBase):
-    id: int
-    last_updated: datetime
-
-    class Config:
-        orm_mode = True
-
-from pydantic import BaseModel
-from typing import Optional
-from datetime import datetime
 
 # 📚 Course Schema
 class CourseBase(BaseModel):

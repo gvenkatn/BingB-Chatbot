@@ -6,6 +6,8 @@ from sqlalchemy.orm import Session
 from passlib.context import CryptContext
 import models, schemas
 import numpy as np
+from fastapi.middleware.cors import CORSMiddleware
+
 
 from sqlalchemy.sql import func
 
@@ -15,6 +17,17 @@ model = SentenceTransformer('all-MiniLM-L6-v2')
 
 # Initialize FastAPI App
 app = FastAPI()
+
+from fastapi.middleware.cors import CORSMiddleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],  # Replace with your frontend URL
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows GET, POST, OPTIONS, etc.
+    allow_headers=["*"],  # Allows all headers
+)
+
 
 # Password Hashing
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -29,17 +42,52 @@ def get_db():
         yield db
     finally:
         db.close()
+import re
 
-def get_most_similar_question(user_query, faqs):
-    """Find the most similar question using sentence embeddings."""
+import re
+def classify_user_query(user_query: str) -> str:
+    """
+    Classifies a user query into one of three categories:
+    - "CourseIntent": if the query is about courses
+    - "FacultyIntent": if the query is about faculty members
+    - "FAQIntent": if the query doesn't fit the above categories
+
+    Args:
+        user_query (str): The user's input query.
+    
+    Returns:
+        str: The determined intent ("CourseIntent", "FacultyIntent", or "FAQIntent").
+    """
+    # Normalize the query by converting it to lowercase
+    normalized_query = user_query.lower()
+
+    # Define simple patterns/keywords for each intent
+    course_keywords = ["cs", "course", "syllabus", "credits", "prerequisite"]
+    faculty_keywords = ["professor", "faculty", "advisor", "office", "email"]
+    
+    # Check for CourseIntent keywords
+    for keyword in course_keywords:
+        if re.search(rf"\b{keyword}\b", normalized_query):
+            return "CourseInfo"
+    
+    # Check for FacultyIntent keywords
+    for keyword in faculty_keywords:
+        if re.search(rf"\b{keyword}\b", normalized_query):
+            return "FacultyInfo"
+    
+    # Default to FAQIntent if no specific keywords are found
+    return "FAQs"
+
+def get_most_similar_item(user_query, items, attribute):
     user_embedding = model.encode(user_query)
-    faq_embeddings = [model.encode(faq.question) for faq in faqs]
-    
-    # Compute cosine similarity
-    similarities = [np.dot(user_embedding, faq_emb) / (np.linalg.norm(user_embedding) * np.linalg.norm(faq_emb)) for faq_emb in faq_embeddings]
-    
+    item_embeddings = [model.encode(getattr(item, attribute)) for item in items]
+    similarities = [
+        np.dot(user_embedding, item_emb) /
+        (np.linalg.norm(user_embedding) * np.linalg.norm(item_emb))
+        for item_emb in item_embeddings
+    ]
     best_match_index = np.argmax(similarities)
-    return faqs[best_match_index] if similarities[best_match_index] > 0.5 else None  # Only return if similarity is above 50%
+    return items[best_match_index] if similarities[best_match_index] > 0.5 else None
 
 @app.post("/webhook/")
 async def dialogflow_webhook(request: Request, db: Session = Depends(get_db)):
@@ -47,25 +95,45 @@ async def dialogflow_webhook(request: Request, db: Session = Depends(get_db)):
     intent_name = req.get('queryResult', {}).get('intent', {}).get('displayName')
     user_query = req.get('queryResult', {}).get('queryText')
 
+    intent_name = classify_user_query(user_query)
+    print(intent_name)
+
     response_text = "I'm not sure about that. Can you try rephrasing?"
 
     if intent_name == "FAQs":
         faqs = db.query(models.FAQ).all()
-        best_match = get_most_similar_question(user_query, faqs)
+        best_match = get_most_similar_item(user_query, faqs, "question")  # ✅ Use `question` for FAQs
         if best_match:
             response_text = best_match.answer
 
     elif intent_name == "CourseInfo":
         courses = db.query(models.Course).all()
-        best_match = get_most_similar_question(user_query, courses)
+        best_match = get_most_similar_item(user_query, courses, "course_name")  # ✅ Use `course_name` for Courses
         if best_match:
             response_text = f"{best_match.course_name} ({best_match.course_code}): {best_match.description}"
+   
+        best_match = get_most_similar_item(user_query, courses, "course_code")  # ✅ Use `course_name` for Courses
+        if best_match:
+            response_text = f"{best_match.course_name} ({best_match.course_code}): {best_match.description}"
+   
+        else:
+            response_text = "❌ Sorry, I couldn't find that course."
+
 
     elif intent_name == "FacultyInfo":
         faculty = db.query(models.Faculty).all()
-        best_match = get_most_similar_question(user_query, faculty)
+        
+        best_match = get_most_similar_item(user_query, faculty, "name")
+
         if best_match:
-            response_text = f"Professor {best_match.name} ({best_match.email}) specializes in {best_match.research_interests}."
+            response_text = f"""
+                👨‍🏫 Professor: {best_match.name} 
+                📧 Email:{best_match.email}
+                🔬 Research Interests: {best_match.research_interests}  
+                """
+            
+        else:
+            response_text = "❌ Sorry, I couldn't find that professor."
 
     return {"fulfillmentText": response_text}
 

@@ -1,0 +1,139 @@
+.App {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centers vertically */
+  align-items: center; /* Centers horizontally */
+  height: 100vh; /* Makes sure it takes the full viewport height */
+  background-color: #F5F5F5; /* Adjust to match your theme */
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+:root {
+  --binghamton-green: #00592D;
+  --binghamton-light-green: #387D54;
+  --binghamton-dark-green: #004B23;
+  --neutral-gray: #DCDCDC;
+  --background-gray: #F5F5F5;
+}
+
+body {
+  background-color: var(--background-gray);
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  color: var(--binghamton-green);
+}
+
+button {
+  background-color: var(--binghamton-green);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 15px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: var(--binghamton-light-green);
+}
+
+header {
+  background: linear-gradient(90deg, var(--binghamton-green) 0%, var(--binghamton-dark-green) 100%);
+  color: white;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.secondary-button {
+  background: white;
+  color: var(--binghamton-green);
+  border: 2px solid var(--binghamton-green);
+  padding: 8px 12px;
+  border-radius: 4px;
+}
+
+.secondary-button:hover {
+  background: var(--binghamton-light-green);
+  color: white;
+}
+
+.card {
+  background: white;
+  border: 1px solid var(--neutral-gray);
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+  color: var(--binghamton-green);
+  font-weight: bold;
+}
+
+button {
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centers vertically */
+  align-items: center; /* Centers horizontally */
+  height: 100vh; /* Makes sure it takes the full viewport height */
+  background-color: #F5F5F5; /* Adjust to match your theme */
+}

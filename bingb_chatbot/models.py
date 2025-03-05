@@ -13,7 +13,7 @@ class FAQ(Base):
     question = Column(Text, unique=True, nullable=False)
     answer = Column(Text, nullable=False)
     search_vector = Column(Text)  # Full-text search support
-
+    last_updated = Column(DateTime, default=func.now(), onupdate=func.now())  # ✅ Ensure last_updated is present
 class Course(Base):
     __tablename__ = "courses"
 

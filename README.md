@@ -1,8 +1,8 @@
 # BingB Chatbot
 
-![GitHub repo size](https://img.shields.io/github/repo-size/your-username/bingb-chatbot)
-![GitHub contributors](https://img.shields.io/github/contributors/your-username/bingb-chatbot)
-![GitHub stars](https://img.shields.io/github/stars/your-username/bingb-chatbot?style=social)
+![GitHub repo size](https://img.shields.io/github/repo-size/gvenkatn/bingb-chatbot)
+![GitHub contributors](https://img.shields.io/github/contributors/gvenkatn/bingb-chatbot)
+![GitHub stars](https://img.shields.io/github/stars/gvenkatn/bingb-chatbot?style=social)
 
 ## 🚀 About BingB Chatbot
 

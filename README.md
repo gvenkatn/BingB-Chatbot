@@ -39,9 +39,7 @@ By reducing the reliance on **email-based queries** and providing students with 
 
 ## 🎥 Demo
 
-[![Watch the demo](Demo-Video.mp4)
-
-Click the image above to watch a 30-second demo of the chatbot in action.
+<img src = "demovideo.gif">
 
 ## 📦 Features
 - Provides course and faculty details

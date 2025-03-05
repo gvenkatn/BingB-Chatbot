@@ -7,7 +7,7 @@
 ## 🚀 About BingB Chatbot
 
 ### 🎯 Inspiration
-As a student at SUNY Binghamton’s School of Computing, I noticed that students often struggle to find quick and accurate information regarding courses, faculty, and academic resources. The existing system, such as email-based ticketing for graduate program queries, helps streamline communication, but students still need a more immediate, interactive, and AI-powered solution for general inquiries.
+As a student at SUNY Binghamton’s School of Computing, I noticed that students needed quick and accurate information regarding courses, faculty, and academic resources. The existing system, such as email-based ticketing for graduate program queries, helps streamline communication, but students still need a more immediate, interactive, and AI-powered solution for general inquiries.
 
 Inspired by the need to **reduce email overload for faculty and staff** while improving the student experience, I developed **BingB Chatbot**—an AI-powered assistant designed to handle frequently asked questions related to **course registration, faculty details, program requirements, graduation, and more**. The chatbot serves as a **first point of contact** for students, offering instant responses and minimizing the need for repetitive email exchanges.
 
